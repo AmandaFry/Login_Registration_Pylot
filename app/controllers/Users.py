@@ -26,6 +26,7 @@ class Users(Controller):
         # notice how we passed the user_info to our model method
         create_status = self.models['User'].create_user(user_info)
 
+        create_status = self.models['User'].create_user(user_info)
         if create_status['status'] == True:
             # the user should have been created in the model
             # we can set the newly-created users id and name to session
@@ -38,8 +39,7 @@ class Users(Controller):
             for message in create_status['errors']:
                 flash(message, 'regis_errors')
             # redirect to the method that renders the form
-            return redirect('/')
-
+            return redirect('/users/new')
 
         # print ('^' * 25)
         # print user
