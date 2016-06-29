@@ -10,7 +10,7 @@ class Users(Controller):
     def index(self):
         #Loads home page
         print 'I am in travel controller home page'
-        return self.load_view('index.html')
+        return self.load_view('new.html')
 
 
     def create(self):
