@@ -41,8 +41,13 @@ class Users(Controller):
             # redirect to the method that renders the form
             return redirect('/users/new')
 
-        # print ('^' * 25)
-        # print user
-        # print ('^' * 25)
-        # return redirect('/')
 
+    def login(self):
+        user_info = {
+            'email':request.form['email'],
+            'passw':request.form['passw']
+        }
+
+        session['id'] = 1
+        session['name'] = 2
+        return self.load_view('user.html') 
