@@ -4,7 +4,7 @@ class Users(Controller):
     def __init__(self, action):
         super(Users, self).__init__(action)
          # Note that we have to load the model before using it in the methods below
-        self.load_model('Loginreg')
+        self.load_model('User')
 
     # method to display registration page
     def index(self):
@@ -24,9 +24,9 @@ class Users(Controller):
         }
         # call create_user method from model and write some logic based on the returned value
         # notice how we passed the user_info to our model method
-        create_status = self.models['Loginreg'].create_user(user_info)
+        create_status = self.models['User'].create_user(user_info)
 
-        create_status = self.models['Loginreg'].create_user(user_info)
+        create_status = self.models['User'].create_user(user_info)
         if create_status['status'] == True:
             # the user should have been created in the model
             # we can set the newly-created users id and name to session

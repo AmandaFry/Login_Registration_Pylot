@@ -14,7 +14,7 @@ class DBConfig(object):
 class DevelopmentDBConfig(DBConfig):
     DB_USERNAME = 'root'
     DB_PASSWORD = 'root'
-    # DB_DATABASE_NAME = 'mydb'
+    #This is the only name that has to match the database
     DB_DATABASE_NAME = 'loginreg'
     DB_HOST = 'localhost'
     DB_PORT = 3306
