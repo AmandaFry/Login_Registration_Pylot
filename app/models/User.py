@@ -70,3 +70,25 @@ class User(Model):
             users = self.db.query_db(get_user_query)
             return { "status": True, "user": users[0] }
 
+    def userLogin(self, user):
+        # errors[]
+        print "I reached userLogin method"
+        query = "SELECT * FROM users WHERE email = '{}' LIMIT 1".format(user['email'])
+        userLogin = self.db.query_db(query)
+        print userLogin
+
+        # if userLogin == []:
+        #     errors.append("User is not valid please resiter")
+        # elif len(user_login[0]['username'])<1 or len(user_login[0]['password'])<1:
+        #     errors.append('No field can be empty')
+        # elif not self.bcrypt.check_password_hash(user_login[0]['password'],user['password']):
+        #     errors.append("Invalid password")
+        # if errors == []:
+        #     session['name'] = user_login[0]['name']
+        #     session['username'] = user_login[0]['username']
+        #     session['user_id'] = user_login[0]['user_id']
+        #     return True
+        # else:
+        #     for error in errors:
+        #         flash(error)
+        #     return False;

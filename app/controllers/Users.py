@@ -47,7 +47,11 @@ class Users(Controller):
             'email':request.form['email'],
             'passw':request.form['passw']
         }
-
-        session['id'] = 1
-        session['name'] = 2
-        return self.load_view('user.html') 
+        if self.models['User'].userLogin(old_user):
+            # return redirect('/travels')
+            return self.load_view('user.html') 
+        else:
+            return  redirect('/')
+        # session['id'] = 1
+        # session['name'] = 2
+        # return self.load_view('user.html') 
