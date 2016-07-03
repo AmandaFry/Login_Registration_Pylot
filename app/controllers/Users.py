@@ -2,6 +2,7 @@ from system.core.controller import *
 from flask import Flask, flash
 import re
 EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9\.\+_-]+@[a-zA-Z0-9\._-]+\.[a-zA-Z]*$')
+NOSPACE_REGEX = re.compile(r'^[a-zA-Z0-9]*$')
 
 class Users(Controller):
     def __init__(self, action):
@@ -17,11 +18,17 @@ class Users(Controller):
         session['email'] = request.form['email']
         session['password'] = request.form['passw']
 
+        #check to see if both field has at least two entry
         if len(session['email'])<2 or len(session['password'])<2:
             flash("email or password was too short")
             return redirect('/')
+        #check to see if email has an email format
         elif not EMAIL_REGEX.match(session['email']):
             flash("Please enter a valid email format")
+            return redirect('/')
+        # check to see if any of the entry is only spaces
+        elif not NOSPACE_REGEX.match(session['password']):
+            flash("Email or password did not match")
             return redirect('/')
         else:
             return redirect('users/success')
@@ -61,17 +68,3 @@ class Users(Controller):
     #         # redirect to the method that renders the form
     #         return redirect('/users/new')
 
-
-    # def login(self):
-    #     user_info = {
-    #         'email':request.form['email'],
-    #         'passw':request.form['passw']
-    #     }
-    #     if self.models['User'].userLogin(old_user):
-    #         # return redirect('/travels')
-    #         return self.load_view('user.html') 
-    #     else:
-    #         return  redirect('/')
-    #     # session['id'] = 1
-    #     # session['name'] = 2
-    #     # return self.load_view('user.html') 
