@@ -15,8 +15,8 @@ class Welcome(Controller):
             This is an example of loading a model.
             Every controller has access to the load_model method.
         """
-        self.load_model('WelcomeModel')
-        self.db = self._app.db
+        # self.load_model('WelcomeModel')
+        # self.db = self._app.db
 
         """
         
