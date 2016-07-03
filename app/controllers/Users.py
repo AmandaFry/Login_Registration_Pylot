@@ -1,10 +1,13 @@
 from system.core.controller import *
+from flask import Flask, flash
+import re
+EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9\.\+_-]+@[a-zA-Z0-9\._-]+\.[a-zA-Z]*$')
 
 class Users(Controller):
     def __init__(self, action):
         super(Users, self).__init__(action)
-         # Note that we have to load the model before using it in the methods below
-        # self.load_model('Users')
+        # Note that we have to load the model before using it in the methods below
+        self.load_model('Loginreg')
 
     # method to display registration page
     def index(self):
@@ -13,7 +16,15 @@ class Users(Controller):
     def process(self):
         session['email'] = request.form['email']
         session['password'] = request.form['passw']
-        return redirect('users/success')
+
+        if len(session['email'])<2 or len(session['password'])<2:
+            flash("email or password was too short")
+            return redirect('/')
+        elif not EMAIL_REGEX.match(session['email']):
+            flash("Please enter a valid email format")
+            return redirect('/')
+        else:
+            return redirect('users/success')
 
     def success(self):
         return self.load_view('success.html', email=session['email'], passw=session['password'])
