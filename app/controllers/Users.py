@@ -31,10 +31,13 @@ class Users(Controller):
             flash("Email or password did not match")
             return redirect('/')
         else:
-            return redirect('users/success')
+            users = self.models['Loginreg'].get_user_email(session['email'])
+            print users
+            return self.load_view('success.html', users=users)
 
-    def success(self):
-        return self.load_view('success.html', email=session['email'], passw=session['password'])
+    # def success(self):
+    #     # return self.load_view('success.html', email=session['email'], passw=session['password'])
+    #     return self.load_view('success.html')
 
     def logout(self):
         session.clear()

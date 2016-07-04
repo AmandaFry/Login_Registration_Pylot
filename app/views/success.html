@@ -19,9 +19,11 @@
         </div><!-- end of header content-->
         <div class="maincontent">
             <h3>User logged on</h3>
-            <p>The user email is: {{ email }}</p>
-            <p>The user password is: {{ passw }}</p>
-
+            {% for user in users %}
+                <p>The user name is {{ user['first_name'] }} {{ user['last_name'] }}</p>
+                <p>The user email is: {{ user['email'] }}</p>
+                <!-- <p>The user password is: {{ passw }}</p> -->
+            {%  endfor %}
             <a href="/logout">Logout</a>
             
         </div><!-- end of main content-->

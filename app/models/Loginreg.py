@@ -6,6 +6,7 @@ import re
 NAME_REGEX = re.compile(r'^[a-zA-Z]*$')
                         #is there upper case, number, at least 8 charater
 PW_REGEX = re.compile(r'^(?=.*?[A-Z])(?=.*?\d)[A-Za-z\d]{8,}$')
+NOSPACE_REGEX = re.compile(r'^[a-zA-Z0-9]*$')
 
 class Loginreg(Model):
     def __init__(self):
@@ -36,37 +37,20 @@ class Loginreg(Model):
         return self.db.query_db(query, data)
 
     """
-    # def create_user(self, info):
-    #  # We write our validations in model functions.
-    # # They will look similar to those we wrote in Flask
-    #     EMAIL_REGEX = re.compile(r'^[a-za-z0-9\.\+_-]+@[a-za-z0-9\._-]+\.[a-za-z]*$')
-    #     errors = []
-    #     # Some basic validation
-    #     if not info['f_name']:
-    #         errors.append('First name cannot be blank')
-    #     elif len(info['f_name']) < 2:
-    #         errors.append('First name must be at least 2 characters long')
-    #     if not info['l_name']:
-    #         errors.append('Last name cannot be blank')
-    #     elif len(info['l_name']) < 2:
-    #         errors.append('Last name must be at least 2 characters long')
-    #     if not info['email']:
-    #         errors.append('Email cannot be blank')
-    #     elif not EMAIL_REGEX.match(info['email']):
-    #         errors.append('Email format must be valid!')
-    #     if not info['passw']:
-    #         errors.append('Password cannot be blank')
-    #     elif len(info['passw']) < 8:
-    #         errors.append('Password must be at least 8 characters long')
-    #     elif info['passw'] != info['conf_passw']:
-    #         errors.append('Password and confirmation must match!')
-    #     # If we hit errors, return them, else return True.
-    #     if errors:
-    #         return {"status": False, "errors": errors}
-    #     else:
-    #         # Code to insert user goes here...
-    #         # Then retrieve the last inserted user.
-    #         get_user_query = "SELECT * FROM users ORDER BY id DESC LIMIT 1"
-    #         users = self.db.query_db(get_user_query)
-    #         return { "status": True, "user": users[0] }
+    def get_all_users(self):
+        print "I reached get_all_users model"
+        query = "SELECT * from users"
+        return self.db.query_db(query)
 
+    def get_user_email(self, email):
+        # pass data to the query like so
+        print "I reached get_user_email model"
+        data = { 'email': email}
+        query = "SELECT * FROM users WHERE email = :email"
+        return self.db.query_db(query, data)
+
+
+        # # pass data to the query like so
+        # query = "SELECT * FROM courses WHERE id = :course_id"
+        # data = { 'course_id': course_id}
+        # return self.db.query_db(query, data)
