@@ -15,11 +15,12 @@ class Users(Controller):
         return self.load_view('index.html')
 
     def process(self):
+        #using session email to clear it logout, but password should not be put into a seesion
         session['email'] = request.form['email']
-        session['password'] = request.form['passw']
+        password = request.form['passw']
 
         #check to see if both field has at least two entry
-        if len(session['email'])<2 or len(session['password'])<2:
+        if len(session['email'])<2 or len(password)<2:
             flash("email or password was too short")
             return redirect('/')
         #check to see if email has an email format
@@ -27,20 +28,22 @@ class Users(Controller):
             flash("Please enter a valid email format")
             return redirect('/')
         # check to see if any of the entry is only spaces
-        elif not NOSPACE_REGEX.match(session['password']):
+        elif not NOSPACE_REGEX.match(password):
             flash("Email or password did not match")
             return redirect('/')
         else:
+        # the email and the password are checked enough to pass it to db to check if exists.
             users = self.models['Loginreg'].get_user_email(session['email'])
             print users
-            return self.load_view('success.html', users=users)
-
-    # def success(self):
-    #     # return self.load_view('success.html', email=session['email'], passw=session['password'])
-    #     return self.load_view('success.html')
+            #if user was not found it will bring back an empty array and its length will be 0
+            if len(users) > 0:
+                return self.load_view('success.html', users=users)
+            else:
+                flash("User was not found please register")
+                return redirect('/')
 
     def logout(self):
-        session.clear()
+        # session.clear()
         return redirect('/')
 
     # def create(self):
