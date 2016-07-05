@@ -18,6 +18,7 @@
             </div>
         </div><!-- end of header content-->
         <div class="maincontent">
+            <!-- Flas message to communicate errors -->
             {% with messages = get_flashed_messages() %}
                 {% if messages %}
                     {% for message in messages %}
@@ -25,8 +26,8 @@
                     {% endfor %}
                 {% endif %}
             {% endwith %}
-
-            <form class="col" action="/process" method="POST">
+            <!-- Login section -->
+            <form class="col" action="/process_login" method="POST">
                 <h1 class="row">Log in</h1>
                 <label class="row">
                     Email: <input type="text" name="email">
@@ -36,7 +37,7 @@
                 </label>
                 <input class="rowButton" type="submit" name="login" value="Log In">
             </form>
-
+            <!-- Registration -->
             <!-- <form class="col" action="/users/create" method="post">
                 <h1 class="row">Register new user</h1>
                 <label class="row">

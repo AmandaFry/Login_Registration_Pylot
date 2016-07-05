@@ -48,38 +48,44 @@ class Loginreg(Model):
         return self.db.query_db(query)
 
     def get_user_email(self, user_info):
-        # pass data to the query like so
-        print "I reached get_user_email model"
-        errors=[]
+        # This section processing user login info
+        errors=[] #reset errors to blank
+
         #check to see if both field has at least two entry
         if len(user_info['email'])<2 or len(user_info['password'])<2:
             errors.append("email or password was too short")
-            # return redirect('/')
         #check to see if email has an email format
         elif not EMAIL_REGEX.match(user_info['email']):
             errors.append("Please enter a valid email format")
-            # return redirect('/')
         # check to see if any of the entry is only spaces
         elif not NOSPACE_REGEX.match(user_info['password']):
             errors.append("Email or password did not match")
-            # return redirect('/')
         if errors:
-            # print errors
+            #if found error than send back a dictionary for status False and the error message
             return {"status": False, "errors": errors}
         else:
-            print "no errors"
+            #the initial check to send infor to database passed now prefomaning access to the db.
+            #pulls the information it needs for user_info to perform the db qurey 
             data = {'email': user_info['email']}
+            #the query to db
             query = "SELECT * FROM users WHERE email = :email"
+            #execting the the db, once excuted users is populated but not returned to contoroller yet
+            # I still need to do a return to send the info back to the controller
             users = self.db.query_db(query, data)
-            # return { "status": True, "users": users[0] }
-            # if not self.bcrypt.check_password_hash(users[0]['password'],user_info['password']):
-            #     errors.append('Incorrect password') 
+
+ 
+            #if the users are 0 length than it did not find the entr in the db. Tis check should
+            #be done before checking password
             if len(users) == 0:
                 errors.append("User was not found please register")
+            #check to see if the password is matches what was typed in
+            # if not self.bcrypt.check_password_hash(users[0]['password'],user_info['password']):
+            #     errors.append('Incorrect password - login was not successful')
+                return {"status": False, "errors": errors}
             else:
+                #the user exist and the password matched return the status True and users information
                 return {"status": True, "users": users[0] }
-                # return (users[0])
-            return (users)
+            # return (users)
 
 
         # # pass data to the query like so

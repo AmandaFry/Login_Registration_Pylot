@@ -14,7 +14,7 @@ class Users(Controller):
     def index(self):
         return self.load_view('index.html')
 
-    def process(self):
+    def process_login(self):
         #Process a login request
         user_info = {
             'email' : request.form['email'],
@@ -25,10 +25,10 @@ class Users(Controller):
 
         # #if user was not found it will bring back status False
         if  users['status'] == False:
-            print users['errors']
+            # print users['errors']
             for message in users['errors']:
                 # flash(message, 'regis_errors')
-                print "i am in for loop", message
+                # print "i am in for loop", message
                 flash(message)
             return redirect('/')
         else:
