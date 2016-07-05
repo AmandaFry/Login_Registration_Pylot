@@ -2,11 +2,15 @@ from system.core.model import Model
 from flask import Flask, flash, session
 import re
 
+EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9\.\+_-]+@[a-zA-Z0-9\._-]+\.[a-zA-Z]*$')
+NOSPACE_REGEX = re.compile(r'^[a-zA-Z0-9]*$')
+
+
 # EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9\.\+_-]+@[a-zA-Z0-9\._-]+\.[a-zA-Z]*$')
-NAME_REGEX = re.compile(r'^[a-zA-Z]*$')
+# NAME_REGEX = re.compile(r'^[a-zA-Z]*$')
                         #is there upper case, number, at least 8 charater
 PW_REGEX = re.compile(r'^(?=.*?[A-Z])(?=.*?\d)[A-Za-z\d]{8,}$')
-NOSPACE_REGEX = re.compile(r'^[a-zA-Z0-9]*$')
+# NOSPACE_REGEX = re.compile(r'^[a-zA-Z0-9]*$')
 
 class Loginreg(Model):
     def __init__(self):
@@ -40,14 +44,39 @@ class Loginreg(Model):
     def get_all_users(self):
         print "I reached get_all_users model"
         query = "SELECT * from users"
+
         return self.db.query_db(query)
 
-    def get_user_email(self, email):
+    def get_user_email(self, user_info):
         # pass data to the query like so
         print "I reached get_user_email model"
-        data = { 'email': email}
-        query = "SELECT * FROM users WHERE email = :email"
-        return self.db.query_db(query, data)
+        errors=[]
+        #check to see if both field has at least two entry
+        if len(user_info['email'])<2 or len(user_info['password'])<2:
+            errors.append("email or password was too short")
+            # return redirect('/')
+        #check to see if email has an email format
+        elif not EMAIL_REGEX.match(user_info['email']):
+            errors.append("Please enter a valid email format")
+            # return redirect('/')
+        # check to see if any of the entry is only spaces
+        elif not NOSPACE_REGEX.match(user_info['password']):
+            errors.append("Email or password did not match")
+            # return redirect('/')
+        if errors:
+            print errors
+            return {"status": False, "errors": errors}
+        else:
+            data = { 'email': user_info['email']}
+            query = "SELECT * FROM users WHERE email = :email"
+            users = self.db.query_db(query, data)
+            # return { "status": True, "users": users[0] }
+            if len(users) == 0:
+                errors.append("User was not found please register")
+            else:
+                return { "status": True, "users": users[0] }
+                # return (users[0])
+            return (users)
 
 
         # # pass data to the query like so

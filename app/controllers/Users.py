@@ -16,31 +16,25 @@ class Users(Controller):
 
     def process(self):
         #using session email to clear it logout, but password should not be put into a seesion
-        session['email'] = request.form['email']
-        password = request.form['passw']
+        user_info = {
+            'email' : request.form['email'],
+            'password' : request.form['passw']
+        }
+        users = self.models['Loginreg'].get_user_email(user_info)
+        print users
+        # #if user was not found it will bring back an empty array and its length will be 0
+        # if len(users) == 0:
+        #     flash("User was not found please register")
+        #     return redirect('/')
+        # if  'status' == False:
+        #     for message in create_status['errors']:
+        #         flash(message, 'regis_errors')
+        #     return redirect('/')
+        # else:
+        #     flash("User was not found please register")
+            
 
-        #check to see if both field has at least two entry
-        if len(session['email'])<2 or len(password)<2:
-            flash("email or password was too short")
-            return redirect('/')
-        #check to see if email has an email format
-        elif not EMAIL_REGEX.match(session['email']):
-            flash("Please enter a valid email format")
-            return redirect('/')
-        # check to see if any of the entry is only spaces
-        elif not NOSPACE_REGEX.match(password):
-            flash("Email or password did not match")
-            return redirect('/')
-        else:
-        # the email and the password are checked enough to pass it to db to check if exists.
-            users = self.models['Loginreg'].get_user_email(session['email'])
-            print users
-            #if user was not found it will bring back an empty array and its length will be 0
-            if len(users) > 0:
-                return self.load_view('success.html', users=users)
-            else:
-                flash("User was not found please register")
-                return redirect('/')
+        return self.load_view('success.html', users=users)
 
     def logout(self):
         # session.clear()
