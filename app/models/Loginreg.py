@@ -44,10 +44,9 @@ class Loginreg(Model):
     def get_all_users(self):
         print "I reached get_all_users model"
         query = "SELECT * from users"
-
         return self.db.query_db(query)
 
-    def get_user_email(self, user_info):
+    def login_user(self, user_info):
         # This section processing user login info
         errors=[] #reset errors to blank
 
@@ -85,3 +84,50 @@ class Loginreg(Model):
                 #the user exist and the password matched return the status True and users information
                 return {"status": True, "users": users[0] }
 
+    def register_user(self, user_info):
+        errors=[] #reset errors to blank
+        print "I got to register model"
+        print user_info
+
+            'f_name':request.form['f_name'],
+            'l_name':request.form['l_name'],
+            'email':request.form['email'],
+            'passw':request.form['passw'],
+            'conf_passw':request.form['conf_passw'],
+
+        #check to see if the fist name is empty
+        if len(user_info['f_name']) < 2 :
+            errors.append("First name cannot be empty")
+        #check to see if first name only spaces
+        elif not NOSPACE_REGEX.match(user_info['f_name']):
+            errors.append("Please enter a valid first name")
+        elif len(user_info['l_name']) < 2 :
+        #check to see if last name is empty
+            errors.append("Last name cannot be empty")
+        #check to see if last name only has spcaes
+        elif not NOSPACE_REGEX.match(user_info['f_name']):
+            errors.append("Please enter a valid last name")
+        #check to see if email is empty
+        elif len(user_info) < 2 :
+            errors.append("Email cannot be empty")
+        #check to see if email has an email format
+        elif not EMAIL_REGEX.match(user_info['email']):
+            errors.append("Please enter a valid email format")
+        #check to see if password empty
+        elif len(user_info['passw']) < 2 :
+            errors.append("Password cannot be empty")   
+        #check to see if password a right format
+        elif not PW_REGEX.match(user_info['passw']):
+            errors.append("Please enter a valid password. It must be 8 charater long, at must include least one upper case and number")
+        #check to see if confirm password is empty
+        elif len(user_info['conf_passw']) < 2 :
+            errors.append("Confirm password cannot be empty")
+        #check to see if password match
+        elif not (user_info['passw'] == user_info['conf_passw']):
+            errors.append("Password and confirm password must match")
+            
+        if errors:
+            #if found error than send back a dictionary for status False and the error message
+            return {"status": False, "errors": errors}
+        else:
+            return {"status": True}

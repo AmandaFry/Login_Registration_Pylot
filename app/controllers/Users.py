@@ -20,7 +20,7 @@ class Users(Controller):
             'email' : request.form['email'],
             'password' : request.form['passw']
         }
-        users = self.models['Loginreg'].get_user_email(user_info)
+        users = self.models['Loginreg'].login_user(user_info)
         print users['status']
 
         #if user was not found it will bring back status False
@@ -46,18 +46,20 @@ class Users(Controller):
         session.clear()
         return redirect('/')
 
-    # def create(self):
-    #     #register a new user - gather data posted to our create method and format it to pass it to the model
-    #     user_info = {
-    #         'f_name':request.form['f_name'],
-    #         'l_name':request.form['l_name'],
-    #         'email':request.form['email'],
-    #         'passw':request.form['passw'],
-    #         'conf_passw':request.form['conf_passw'],
-    #     }
-    #     # call create_user method from model and write some logic based on the returned value
-    #     # notice how we passed the user_info to our model method
-    #     create_status = self.models['User'].create_user(user_info)
+    def process_registration(self):
+        #register a new user - gather data posted to our create method and format it to pass it to the model
+        user_info = {
+            'f_name':request.form['f_name'],
+            'l_name':request.form['l_name'],
+            'email':request.form['email'],
+            'passw':request.form['passw'],
+            'conf_passw':request.form['conf_passw'],
+        }
+        # call create_user method from model and write some logic based on the returned value
+        # notice how we passed the user_info to our model method
+        print 'hello'
+
+        register = self.models['Loginreg'].register_user(user_info)
 
     #     create_status = self.models['User'].create_user(user_info)
     #     if create_status['status'] == True:
@@ -72,5 +74,5 @@ class Users(Controller):
     #         for message in create_status['errors']:
     #             flash(message, 'regis_errors')
     #         # redirect to the method that renders the form
-    #         return redirect('/users/new')
+        return self.load_view('newUser.html')
 

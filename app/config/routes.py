@@ -19,7 +19,7 @@ from system.core.router import routes
 routes['default_controller'] = 'Users'
 routes['POST']['/process_login'] = 'Users#process_login'
 routes['GET']['/logout'] = 'Users#logout'
-# routes['POST']['/users/create'] = "Users#create"
+routes['POST']['/process_registration'] = "Users#process_registration"
 
 
 """
