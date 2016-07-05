@@ -32,7 +32,11 @@ class Users(Controller):
         #     return redirect('/')
         # else:
         #     flash("User was not found please register")
-            
+        # if len(errors) > 0:
+        #     print errors
+        #     for error in errors:
+        #         flash(message)
+        #     return redirect('/')
 
         return self.load_view('success.html', users=users)
 

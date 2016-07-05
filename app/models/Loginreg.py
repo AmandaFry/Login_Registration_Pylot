@@ -4,12 +4,12 @@ import re
 
 EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9\.\+_-]+@[a-zA-Z0-9\._-]+\.[a-zA-Z]*$')
 NOSPACE_REGEX = re.compile(r'^[a-zA-Z0-9]*$')
-
+PW_REGEX = re.compile(r'^(?=.*?[A-Z])(?=.*?\d)[A-Za-z\d]{8,}$')
 
 # EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9\.\+_-]+@[a-zA-Z0-9\._-]+\.[a-zA-Z]*$')
 # NAME_REGEX = re.compile(r'^[a-zA-Z]*$')
                         #is there upper case, number, at least 8 charater
-PW_REGEX = re.compile(r'^(?=.*?[A-Z])(?=.*?\d)[A-Za-z\d]{8,}$')
+# PW_REGEX = re.compile(r'^(?=.*?[A-Z])(?=.*?\d)[A-Za-z\d]{8,}$')
 # NOSPACE_REGEX = re.compile(r'^[a-zA-Z0-9]*$')
 
 class Loginreg(Model):
@@ -71,7 +71,9 @@ class Loginreg(Model):
             query = "SELECT * FROM users WHERE email = :email"
             users = self.db.query_db(query, data)
             # return { "status": True, "users": users[0] }
-            if len(users) == 0:
+            if not self.bcrypt.check_password_hash(users[0]['password'],user_info['password']):
+                errors.append('Incorrect password') 
+            elif len(users) == 0:
                 errors.append("User was not found please register")
             else:
                 return { "status": True, "users": users[0] }
