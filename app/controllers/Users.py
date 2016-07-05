@@ -61,18 +61,11 @@ class Users(Controller):
 
         register = self.models['Loginreg'].register_user(user_info)
 
-    #     create_status = self.models['User'].create_user(user_info)
-    #     if create_status['status'] == True:
-    #         # the user should have been created in the model
-    #         # we can set the newly-created users id and name to session
-    #         session['id'] = create_status['user']['id'] 
-    #         # session['name'] = create_status['user']['name']
-    #         # we can redirect to the users profile page here
-    #         return redirect('/users')
-    #     else:
-    #         # set flashed error messages here from the error messages we returned from the Model
-    #         for message in create_status['errors']:
-    #             flash(message, 'regis_errors')
-    #         # redirect to the method that renders the form
-        return self.load_view('newUser.html')
+        if  register['status'] == False:
+            #switch error message from array to Falsh and redirect to login page again
+            for message in register['errors']:
+                flash(message)
+            return redirect('/')
+        else:
+            return self.load_view('newUser.html')
 

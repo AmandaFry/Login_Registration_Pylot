@@ -89,12 +89,7 @@ class Loginreg(Model):
         print "I got to register model"
         print user_info
 
-            'f_name':request.form['f_name'],
-            'l_name':request.form['l_name'],
-            'email':request.form['email'],
-            'passw':request.form['passw'],
-            'conf_passw':request.form['conf_passw'],
-
+        #validating entries before db insert
         #check to see if the fist name is empty
         if len(user_info['f_name']) < 2 :
             errors.append("First name cannot be empty")
@@ -125,9 +120,23 @@ class Loginreg(Model):
         #check to see if password match
         elif not (user_info['passw'] == user_info['conf_passw']):
             errors.append("Password and confirm password must match")
-            
+
         if errors:
             #if found error than send back a dictionary for status False and the error message
             return {"status": False, "errors": errors}
         else:
-            return {"status": True}
+        #check if email already in use
+            data = {'email': user_info['email']}
+            #the query to db
+            query = "SELECT * FROM users WHERE email = :email"
+            #execting the the db, once excuted users is populated but not returned to contoroller yet
+            # I still need to do a return to send the info back to the controller
+            users = self.db.query_db(query, data)
+            print users
+            if users:
+                errors.append("Email account already in use")
+                return {"status": False, "errors": errors}
+            else:
+            # at this point the informaiton is all valid and the email accoutn is not in use.
+
+                return {"status": True}
