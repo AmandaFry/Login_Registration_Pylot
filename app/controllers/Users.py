@@ -15,19 +15,15 @@ class Users(Controller):
         return self.load_view('index.html')
 
     def process(self):
-        #using session email to clear it logout, but password should not be put into a seesion
+        #Process a login request
         user_info = {
             'email' : request.form['email'],
             'password' : request.form['passw']
         }
         users = self.models['Loginreg'].get_user_email(user_info)
         print users['status']
-        
 
-        # #if user was not found it will bring back an empty array and its length will be 0
-        # if len(users) == 0:
-        #     flash("User was not found please register")
-        #     return redirect('/')
+        # #if user was not found it will bring back status False
         if  users['status'] == False:
             print users['errors']
             for message in users['errors']:
