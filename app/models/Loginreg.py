@@ -73,22 +73,15 @@ class Loginreg(Model):
             # I still need to do a return to send the info back to the controller
             users = self.db.query_db(query, data)
 
- 
             #if the users are 0 length than it did not find the entr in the db. Tis check should
             #be done before checking password
             if len(users) == 0:
                 errors.append("User was not found please register")
             #check to see if the password is matches what was typed in
-            # if not self.bcrypt.check_password_hash(users[0]['password'],user_info['password']):
+            # elif not self.bcrypt.check_password_hash(users[0]['password'],user_info['password']):
             #     errors.append('Incorrect password - login was not successful')
                 return {"status": False, "errors": errors}
             else:
                 #the user exist and the password matched return the status True and users information
                 return {"status": True, "users": users[0] }
-            # return (users)
 
-
-        # # pass data to the query like so
-        # query = "SELECT * FROM courses WHERE id = :course_id"
-        # data = { 'course_id': course_id}
-        # return self.db.query_db(query, data)

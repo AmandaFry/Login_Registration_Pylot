@@ -23,27 +23,27 @@ class Users(Controller):
         users = self.models['Loginreg'].get_user_email(user_info)
         print users['status']
 
-        # #if user was not found it will bring back status False
+        #if user was not found it will bring back status False
         if  users['status'] == False:
-            # print users['errors']
+            #switch error message from array to Falsh and redirect to login page again
             for message in users['errors']:
-                # flash(message, 'regis_errors')
-                # print "i am in for loop", message
                 flash(message)
             return redirect('/')
         else:
-        #     flash("User was not found please register")
-        # if len(errors) > 0:
-        #     print errors
-        #     for error in errors:
-        #         flash(message)
-        #     return redirect('/')
             print users
-
+            # #accessing the dicitionary value 
+            # print users['users']['id']
+            #adding the user name and id into session that will be used for applications
+            session['id']= users['users']['id']
+            session['name'] = users['users']['first_name'] + ' ' + users['users']['last_name']
+            #checking to make sure I got the correct info in session
+            # print 'I am seesion id ', session['id']
+            # print 'I am session name', session['name']
             return self.load_view('success.html', users=users['users'])
 
     def logout(self):
-        # session.clear()
+        # when login out cleared out the id and name of the user who logged in
+        session.clear()
         return redirect('/')
 
     # def create(self):
