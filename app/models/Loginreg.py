@@ -138,5 +138,15 @@ class Loginreg(Model):
                 return {"status": False, "errors": errors}
             else:
             # at this point the informaiton is all valid and the email accoutn is not in use.
-
-                return {"status": True}
+                password = user_info['passw']
+                hashed_pw = self.bcrypt.generate_password_hash(password)
+                #inserting data
+                data = {
+                    'f_name':user_info['f_name'],
+                    'l_name':user_info['l_name'],
+                    'email':user_info['email'],
+                    'passw':hashed_pw,
+                }
+                query = "INSERT into users (first_name, last_name, email, password, created_at, updated_at) values(:f_name, :l_name, :email, :passw, NOW(), NOW())"
+                registered_user = self.db.query_db(query, data)
+                return {"status": True }

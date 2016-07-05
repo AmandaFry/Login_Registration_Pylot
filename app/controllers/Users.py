@@ -67,5 +67,7 @@ class Users(Controller):
                 flash(message)
             return redirect('/')
         else:
-            return self.load_view('newUser.html')
+            # return self.load_view('newUser.html')
+            flash('Succesfully registered please login')
+            return redirect('/')
 
