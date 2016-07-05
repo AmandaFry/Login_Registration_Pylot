@@ -19,12 +19,10 @@
         </div><!-- end of header content-->
         <div class="maincontent">
             <h3>User logged on</h3>
-            <!-- {% for user in users %} -->
-            <p>Welcome {{ user['first_name'] }} {{ user['last_name'] }}</p>
-            <p>Your email is: {{ user['email'] }}</p>
-<!--                 <p>Welcome {{ users.first_name }} {{ users.last_name }}</p>
-                <p>Your email is: {{ users.email }}</p> -->
-            <!-- {%  endfor %} -->
+
+                <p>Welcome {{ users['first_name'] }} {{ users['last_name'] }}</p>
+                <p>Your email is: {{ users['email'] }}</p>
+
             <a href="/logout">Logout</a>
             
         </div><!-- end of main content-->

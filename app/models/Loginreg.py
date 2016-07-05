@@ -64,19 +64,20 @@ class Loginreg(Model):
             errors.append("Email or password did not match")
             # return redirect('/')
         if errors:
-            print errors
+            # print errors
             return {"status": False, "errors": errors}
         else:
-            data = { 'email': user_info['email']}
+            print "no errors"
+            data = {'email': user_info['email']}
             query = "SELECT * FROM users WHERE email = :email"
             users = self.db.query_db(query, data)
             # return { "status": True, "users": users[0] }
-            if not self.bcrypt.check_password_hash(users[0]['password'],user_info['password']):
-                errors.append('Incorrect password') 
-            elif len(users) == 0:
+            # if not self.bcrypt.check_password_hash(users[0]['password'],user_info['password']):
+            #     errors.append('Incorrect password') 
+            if len(users) == 0:
                 errors.append("User was not found please register")
             else:
-                return { "status": True, "users": users[0] }
+                return {"status": True, "users": users[0] }
                 # return (users[0])
             return (users)
 

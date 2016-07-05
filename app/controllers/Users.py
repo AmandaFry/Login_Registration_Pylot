@@ -21,24 +21,30 @@ class Users(Controller):
             'password' : request.form['passw']
         }
         users = self.models['Loginreg'].get_user_email(user_info)
-        print users
+        print users['status']
+        
+
         # #if user was not found it will bring back an empty array and its length will be 0
         # if len(users) == 0:
         #     flash("User was not found please register")
         #     return redirect('/')
-        # if  'status' == False:
-        #     for message in create_status['errors']:
-        #         flash(message, 'regis_errors')
-        #     return redirect('/')
-        # else:
+        if  users['status'] == False:
+            print users['errors']
+            for message in users['errors']:
+                # flash(message, 'regis_errors')
+                print "i am in for loop", message
+                flash(message)
+            return redirect('/')
+        else:
         #     flash("User was not found please register")
         # if len(errors) > 0:
         #     print errors
         #     for error in errors:
         #         flash(message)
         #     return redirect('/')
+            print users
 
-        return self.load_view('success.html', users=users)
+            return self.load_view('success.html', users=users['users'])
 
     def logout(self):
         # session.clear()
