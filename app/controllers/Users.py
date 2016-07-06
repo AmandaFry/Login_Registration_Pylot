@@ -65,4 +65,5 @@ class Users(Controller):
             flash('Succesfully registered please login')
             return redirect('/')
 
+        # second version have the user loged in after registration
         # return self.load_view('newUser.html')
