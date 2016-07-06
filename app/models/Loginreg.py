@@ -77,8 +77,8 @@ class Loginreg(Model):
             if len(users) == 0:
                 errors.append("User was not found please register")
             #check to see if the password is matches what was typed in
-            # elif not self.bcrypt.check_password_hash(users[0]['password'],user_info['password']):
-            #     errors.append('Incorrect password - login was not successful')
+            elif not self.bcrypt.check_password_hash(users[0]['password'],user_info['password']):
+                errors.append('Incorrect password - login was not successful')
                 return {"status": False, "errors": errors}
             else:
                 #the user exist and the password matched return the status True and users information

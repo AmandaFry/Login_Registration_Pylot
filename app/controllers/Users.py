@@ -1,8 +1,5 @@
 from system.core.controller import *
 from flask import Flask, flash
-import re
-EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9\.\+_-]+@[a-zA-Z0-9\._-]+\.[a-zA-Z]*$')
-NOSPACE_REGEX = re.compile(r'^[a-zA-Z0-9]*$')
 
 class Users(Controller):
     def __init__(self, action):
@@ -30,7 +27,7 @@ class Users(Controller):
                 flash(message)
             return redirect('/')
         else:
-            print users
+            # print users
             # #accessing the dicitionary value 
             # print users['users']['id']
             #adding the user name and id into session that will be used for applications
@@ -47,7 +44,7 @@ class Users(Controller):
         return redirect('/')
 
     def process_registration(self):
-        #register a new user - gather data posted to our create method and format it to pass it to the model
+        #register a new user - gather data from index form and pass it to the model
         user_info = {
             'f_name':request.form['f_name'],
             'l_name':request.form['l_name'],
@@ -55,19 +52,17 @@ class Users(Controller):
             'passw':request.form['passw'],
             'conf_passw':request.form['conf_passw'],
         }
-        # call create_user method from model and write some logic based on the returned value
-        # notice how we passed the user_info to our model method
-        print 'hello'
-
+        #I call the model the register)usr method
         register = self.models['Loginreg'].register_user(user_info)
 
         if  register['status'] == False:
-            #switch error message from array to Falsh and redirect to login page again
+            #switch error message from array to flash and redirect to registered
             for message in register['errors']:
                 flash(message)
             return redirect('/')
         else:
-            # return self.load_view('newUser.html')
+            #In this version I return a flash message letting the user know the registration was successful
             flash('Succesfully registered please login')
             return redirect('/')
 
+        # return self.load_view('newUser.html')

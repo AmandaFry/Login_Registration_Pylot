@@ -22,24 +22,24 @@
             {% with messages = get_flashed_messages() %}
                 {% if messages %}
                     {% for message in messages %}
-                        <p style="color: red">{{message}}</p>
+                        <p style="color: red; margin-left: 25%">{{message}}</p>
                     {% endfor %}
                 {% endif %}
             {% endwith %}
             <!-- Login section -->
             <form class="col" action="/process_login" method="POST">
-                <h1 class="row">Log in</h1>
+                <h1 class="row">Log In</h1>
                 <label class="row">
                     Email: <input type="text" name="email">
                 </label>
                 <label class="row">
-                    Password: <input type="text" name="passw">
+                    Password: <input type="password" name="passw">
                 </label>
                 <input class="rowButton" type="submit" name="login" value="Log In">
             </form>
             <!-- Registration -->
             <form class="col" action="/process_registration" method="post">
-                <h1 class="row">Register new user</h1>
+                <h1 class="row">Register New user</h1>
                 <label class="row">
                     First name: <input type="text" name="f_name">
                 </label>
@@ -57,7 +57,6 @@
                 </label>
                 <input class="rowButton" type="submit" name="register" value="Register">
             </form>
-        
         </div><!-- end of main content-->
         <div class="footer">
             <p>created by: Amanda Fry</p>
